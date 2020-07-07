@@ -139,8 +139,8 @@ int main(int argc, const char **argv) {
             const fbyte *b_data_j = final_data + *b_offset_j;
             const size_t b_size_j = array.offsets[j].size;
 
-            // If it's the same size, we can dedupe this
-            if(b_size_i == b_size_j && memcmp(b_data_i, b_data_j, b_size_i) == 0) {
+            // If it's the same size or less, we can dedupe this
+            if(b_size_i <= b_size_j && memcmp(b_data_i, b_data_j, b_size_i) == 0) {
                 deduped = true;
                 *b_offset_i = *b_offset_j;
                 break;
