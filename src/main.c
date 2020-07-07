@@ -152,6 +152,12 @@ int main(int argc, const char **argv) {
             continue;
         }
 
+        // Expand if necessary
+        if(current_offset + b_size_i > max_size) {
+            final_data = realloc(final_data, max_size + b_size_i * 2);
+            max_size *= 2;
+        }
+
         // Copy it over and set the offset to the new one
         memcpy(final_data + current_offset, b_data_i, b_size_i);
         *b_offset_i = current_offset;
@@ -160,6 +166,12 @@ int main(int argc, const char **argv) {
 
     // Add 1-3 bytes of padding to 32-bit align if necessary
     current_offset += (4 - (current_offset % 4)) & ~4;
+
+    // Expand if necessary to hold tag data
+    if(current_offset + tag_data_size > max_size) {
+        max_size += tag_data_size;
+        final_data = realloc(final_data, max_size);
+    }
 
     // Finish assembling the data
     *(uint32_t *)(data + TAG_DATA_OFFSET) = current_offset;
