@@ -136,7 +136,7 @@ int main(int argc, const char **argv) {
         bool deduped = false;
         for(size_t j = 0; j < i; j++) {
             const uint32_t *b_offset_j = array.offsets[j].offset;
-            const fbyte *b_data_j = data + *b_offset_j;
+            const fbyte *b_data_j = final_data + *b_offset_j;
             const size_t b_size_j = array.offsets[j].size;
 
             // If it's the same size, we can dedupe this
