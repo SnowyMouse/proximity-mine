@@ -158,6 +158,9 @@ int main(int argc, const char **argv) {
         current_offset += b_size_i;
     }
 
+    // Add 1-3 bytes of padding to 32-bit align if necessary
+    current_offset += (4 - (current_offset % 4)) & ~4;
+
     // Finish assembling the data
     *(uint32_t *)(data + TAG_DATA_OFFSET) = current_offset;
     memcpy(final_data + current_offset, tag_data, tag_data_size);
